@@ -107,7 +107,7 @@ func cmdRestore(trashMgr *trash.Manager, userUI ui.UI, args []string) {
 	}
 
 	var trashName string
-	
+
 	if len(args) > 0 {
 		// Restore by original path or trash name
 		targetPath := args[0]
@@ -180,7 +180,7 @@ func cmdRemove(trashMgr *trash.Manager, userUI ui.UI, args []string) {
 
 	targetPath := args[0]
 	var trashName string
-	
+
 	for _, item := range items {
 		if item.OriginalPath == targetPath || filepath.Base(item.TrashPath) == targetPath {
 			trashName = filepath.Base(item.TrashPath)
@@ -247,7 +247,7 @@ func cmdConfig(cfg *config.Config, userUI ui.UI, args []string) {
 		}
 		key := args[1]
 		value := args[2]
-		
+
 		// Parse value based on key
 		var parsed interface{}
 		switch key {
@@ -263,17 +263,17 @@ func cmdConfig(cfg *config.Config, userUI ui.UI, args []string) {
 			userUI.Error(fmt.Sprintf("Unknown config key: %s", key))
 			os.Exit(1)
 		}
-		
+
 		if !cfg.Set(key, parsed) {
 			userUI.Error("Failed to set config value")
 			os.Exit(1)
 		}
-		
+
 		if err := cfg.Save(); err != nil {
 			userUI.Error(fmt.Sprintf("Failed to save config: %v", err))
 			os.Exit(1)
 		}
-		
+
 		userUI.Success(fmt.Sprintf("Set %s = %v", key, parsed))
 
 	case "reset":

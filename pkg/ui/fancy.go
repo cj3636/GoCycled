@@ -26,7 +26,7 @@ func (u *FancyUI) Confirm(message string) bool {
 	if !isGumAvailable() {
 		return u.basic.Confirm(message)
 	}
-	
+
 	cmd := exec.Command("gum", "confirm", message)
 	err := cmd.Run()
 	return err == nil
@@ -38,7 +38,7 @@ func (u *FancyUI) DisplayItems(items []trash.Item) {
 		u.Info("Trash is empty")
 		return
 	}
-	
+
 	// Use basic display for now
 	u.basic.DisplayItems(items)
 }
@@ -48,35 +48,35 @@ func (u *FancyUI) SelectItem(items []trash.Item) (string, error) {
 	if len(items) == 0 {
 		return "", fmt.Errorf("no items to select")
 	}
-	
+
 	// Check if gum is available
 	if !isGumAvailable() {
 		return u.basic.SelectItem(items)
 	}
-	
+
 	// Build options
 	options := make([]string, len(items))
 	for i, item := range items {
 		options[i] = item.OriginalPath
 	}
-	
+
 	cmd := exec.Command("gum", "choose", "--header=Select item to restore:")
 	cmd.Stdin = strings.NewReader(strings.Join(options, "\n"))
-	
+
 	output, err := cmd.Output()
 	if err != nil {
 		return "", fmt.Errorf("selection cancelled")
 	}
-	
+
 	selected := strings.TrimSpace(string(output))
-	
+
 	// Find matching item
 	for _, item := range items {
 		if item.OriginalPath == selected {
 			return item.TrashPath, nil
 		}
 	}
-	
+
 	return "", fmt.Errorf("item not found")
 }
 

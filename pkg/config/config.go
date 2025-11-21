@@ -8,22 +8,22 @@ import (
 
 // Config represents the application configuration
 type Config struct {
-	TrashDir        string `json:"trash_dir"`
-	ConfirmDelete   bool   `json:"confirm_delete"`
-	UseFancyUI      bool   `json:"use_fancy_ui"`
-	AutoEmptyDays   int    `json:"auto_empty_days"`
-	MaxTrashSizeMB  int    `json:"max_trash_size_mb"`
+	TrashDir       string `json:"trash_dir"`
+	ConfirmDelete  bool   `json:"confirm_delete"`
+	UseFancyUI     bool   `json:"use_fancy_ui"`
+	AutoEmptyDays  int    `json:"auto_empty_days"`
+	MaxTrashSizeMB int    `json:"max_trash_size_mb"`
 }
 
 // DefaultConfig returns a new Config with default values
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
-		TrashDir:        filepath.Join(homeDir, ".local", "share", "Trash"),
-		ConfirmDelete:   true,
-		UseFancyUI:      false,
-		AutoEmptyDays:   30,
-		MaxTrashSizeMB:  1024,
+		TrashDir:       filepath.Join(homeDir, ".local", "share", "Trash"),
+		ConfirmDelete:  true,
+		UseFancyUI:     false,
+		AutoEmptyDays:  30,
+		MaxTrashSizeMB: 1024,
 	}
 }
 
@@ -36,7 +36,7 @@ func ConfigPath() string {
 // Load loads the config from ~/.trashrc or creates a default one
 func Load() (*Config, error) {
 	configPath := ConfigPath()
-	
+
 	// If config doesn't exist, create default
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		cfg := DefaultConfig()
@@ -45,17 +45,17 @@ func Load() (*Config, error) {
 		}
 		return cfg, nil
 	}
-	
+
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	cfg := &Config{}
 	if err := json.Unmarshal(data, cfg); err != nil {
 		return nil, err
 	}
-	
+
 	return cfg, nil
 }
 
@@ -65,7 +65,7 @@ func (c *Config) Save() error {
 	if err != nil {
 		return err
 	}
-	
+
 	configPath := ConfigPath()
 	return os.WriteFile(configPath, data, 0644)
 }

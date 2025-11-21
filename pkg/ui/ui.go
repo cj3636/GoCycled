@@ -45,16 +45,16 @@ func (u *BasicUI) DisplayItems(items []trash.Item) {
 		fmt.Println("Trash is empty")
 		return
 	}
-	
+
 	fmt.Printf("\n%-40s %-20s %-15s\n", "Original Path", "Deleted At", "Size")
 	fmt.Println(strings.Repeat("-", 80))
-	
+
 	for _, item := range items {
 		size := formatSize(item.Size)
 		deletedAt := item.DeletedAt.Format("2006-01-02 15:04:05")
-		fmt.Printf("%-40s %-20s %-15s\n", 
-			truncate(item.OriginalPath, 40), 
-			deletedAt, 
+		fmt.Printf("%-40s %-20s %-15s\n",
+			truncate(item.OriginalPath, 40),
+			deletedAt,
 			size)
 	}
 	fmt.Println()
@@ -65,18 +65,18 @@ func (u *BasicUI) SelectItem(items []trash.Item) (string, error) {
 	if len(items) == 0 {
 		return "", fmt.Errorf("no items to select")
 	}
-	
+
 	for i, item := range items {
 		fmt.Printf("%d. %s\n", i+1, item.OriginalPath)
 	}
-	
+
 	fmt.Print("\nSelect item number: ")
 	var selection int
 	_, err := fmt.Scanf("%d", &selection)
 	if err != nil || selection < 1 || selection > len(items) {
 		return "", fmt.Errorf("invalid selection")
 	}
-	
+
 	return items[selection-1].TrashPath, nil
 }
 
