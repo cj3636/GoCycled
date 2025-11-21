@@ -71,9 +71,14 @@ func (u *BasicUI) SelectItem(items []trash.Item) (string, error) {
 	}
 
 	fmt.Print("\nSelect item number: ")
+	input, err := u.reader.ReadString('\n')
+	if err != nil {
+		return "", fmt.Errorf("failed to read input: %v", err)
+	}
+	
 	var selection int
-	_, err := fmt.Scanf("%d", &selection)
-	if err != nil || selection < 1 || selection > len(items) {
+	input = strings.TrimSpace(input)
+	if _, err := fmt.Sscanf(input, "%d", &selection); err != nil || selection < 1 || selection > len(items) {
 		return "", fmt.Errorf("invalid selection")
 	}
 

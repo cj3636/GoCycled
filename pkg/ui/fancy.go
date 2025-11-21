@@ -84,7 +84,11 @@ func (u *FancyUI) SelectItem(items []trash.Item) (string, error) {
 func (u *FancyUI) Success(message string) {
 	if isGumAvailable() {
 		cmd := exec.Command("gum", "style", "--foreground=2", "✓ "+message)
-		cmd.Run()
+		if err := cmd.Run(); err != nil {
+			// Fallback to basic UI if gum fails
+			u.basic.Success(message)
+			return
+		}
 	} else {
 		u.basic.Success(message)
 	}
@@ -94,7 +98,11 @@ func (u *FancyUI) Success(message string) {
 func (u *FancyUI) Error(message string) {
 	if isGumAvailable() {
 		cmd := exec.Command("gum", "style", "--foreground=1", "✗ Error: "+message)
-		cmd.Run()
+		if err := cmd.Run(); err != nil {
+			// Fallback to basic UI if gum fails
+			u.basic.Error(message)
+			return
+		}
 	} else {
 		u.basic.Error(message)
 	}
@@ -104,7 +112,11 @@ func (u *FancyUI) Error(message string) {
 func (u *FancyUI) Info(message string) {
 	if isGumAvailable() {
 		cmd := exec.Command("gum", "style", "--foreground=4", "ℹ "+message)
-		cmd.Run()
+		if err := cmd.Run(); err != nil {
+			// Fallback to basic UI if gum fails
+			u.basic.Info(message)
+			return
+		}
 	} else {
 		u.basic.Info(message)
 	}

@@ -257,7 +257,10 @@ func cmdConfig(cfg *config.Config, userUI ui.UI, args []string) {
 			parsed = value == "true" || value == "yes" || value == "1"
 		case "auto_empty_days", "max_trash_size_mb":
 			var intVal int
-			fmt.Sscanf(value, "%d", &intVal)
+			if _, err := fmt.Sscanf(value, "%d", &intVal); err != nil {
+				userUI.Error(fmt.Sprintf("Invalid integer value: %s", value))
+				os.Exit(1)
+			}
 			parsed = intVal
 		default:
 			userUI.Error(fmt.Sprintf("Unknown config key: %s", key))
