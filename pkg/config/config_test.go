@@ -16,10 +16,6 @@ func TestDefaultConfig(t *testing.T) {
 		t.Error("ConfirmDelete should be true by default")
 	}
 
-	if cfg.UseFancyUI {
-		t.Error("UseFancyUI should be false by default")
-	}
-
 	if cfg.AutoEmptyDays != 30 {
 		t.Errorf("AutoEmptyDays should be 30, got %d", cfg.AutoEmptyDays)
 	}
@@ -40,7 +36,6 @@ func TestConfigSaveLoad(t *testing.T) {
 
 	// Create and save config
 	cfg := DefaultConfig()
-	cfg.UseFancyUI = true
 	cfg.AutoEmptyDays = 45
 
 	if err := cfg.Save(); err != nil {
@@ -54,10 +49,6 @@ func TestConfigSaveLoad(t *testing.T) {
 	}
 
 	// Verify loaded values
-	if !loadedCfg.UseFancyUI {
-		t.Error("UseFancyUI should be true")
-	}
-
 	if loadedCfg.AutoEmptyDays != 45 {
 		t.Errorf("AutoEmptyDays should be 45, got %d", loadedCfg.AutoEmptyDays)
 	}

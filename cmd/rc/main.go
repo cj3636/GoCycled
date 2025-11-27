@@ -26,12 +26,7 @@ func main() {
 	}
 
 	// Create UI
-	var userUI ui.UI
-	if cfg.UseFancyUI {
-		userUI = ui.NewFancyUI()
-	} else {
-		userUI = ui.NewBasicUI()
-	}
+	userUI := ui.NewBasicUI()
 
 	// Create trash manager
 	trashMgr, err := trash.NewManager(cfg.TrashDir)
@@ -217,7 +212,6 @@ func cmdConfig(cfg *config.Config, userUI ui.UI, args []string) {
 		fmt.Println("Current configuration:")
 		fmt.Printf("  trash_dir: %s\n", cfg.TrashDir)
 		fmt.Printf("  confirm_delete: %v\n", cfg.ConfirmDelete)
-		fmt.Printf("  use_fancy_ui: %v\n", cfg.UseFancyUI)
 		fmt.Printf("  auto_empty_days: %d\n", cfg.AutoEmptyDays)
 		fmt.Printf("  max_trash_size_mb: %d\n", cfg.MaxTrashSizeMB)
 		fmt.Printf("\nConfig file: %s\n", config.ConfigPath())
@@ -253,7 +247,7 @@ func cmdConfig(cfg *config.Config, userUI ui.UI, args []string) {
 		switch key {
 		case "trash_dir":
 			parsed = value
-		case "confirm_delete", "use_fancy_ui":
+		case "confirm_delete":
 			parsed = value == "true" || value == "yes" || value == "1"
 		case "auto_empty_days", "max_trash_size_mb":
 			var intVal int
@@ -319,7 +313,6 @@ Config Commands:
 Configuration Keys:
   trash_dir          Trash directory location
   confirm_delete     Confirm before permanent deletion (true/false)
-  use_fancy_ui       Use fancy UI with Gum (true/false)
   auto_empty_days    Auto-empty trash after N days
   max_trash_size_mb  Maximum trash size in MB
 
@@ -329,7 +322,7 @@ Examples:
   rc restore                   Interactively restore an item
   rc restore file.txt          Restore specific file
   rc empty                     Empty trash
-  rc config set use_fancy_ui true
+  rc config set confirm_delete true
   rc config get trash_dir
 
 Config file: ~/.trashrc

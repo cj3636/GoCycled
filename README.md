@@ -22,7 +22,6 @@ GoCycled is a fast, lightweight, and safe trash/recycle bin utility for Linux sy
 - JSON-based config file at `~/.trashrc`
 - All settings editable via CLI commands
 - Per-user configuration
-- Optional fancy UI with [Gum](https://github.com/charmbracelet/gum)
 
 🚀 **Performance**
 - Lightweight and fast
@@ -43,7 +42,6 @@ sudo mv rc /usr/local/bin/
 ### Prerequisites
 
 - Go 1.18 or later
-- Optional: [Gum](https://github.com/charmbracelet/gum) for fancy UI
 
 ## Usage
 
@@ -87,11 +85,10 @@ rc config
 
 # Get a specific setting
 rc config get trash_dir
-rc config get use_fancy_ui
+rc config get confirm_delete
 
 # Set a configuration value
 rc config set confirm_delete true
-rc config set use_fancy_ui false
 rc config set trash_dir ~/.local/share/Trash
 
 # Reset to default configuration
@@ -106,7 +103,6 @@ The configuration file is stored at `~/.trashrc` in JSON format:
 |-----|------|---------|-------------|
 | `trash_dir` | string | `~/.local/share/Trash` | Location of trash directory |
 | `confirm_delete` | bool | `true` | Confirm before permanent deletion |
-| `use_fancy_ui` | bool | `false` | Use Gum for fancy UI (requires Gum) |
 | `auto_empty_days` | int | `30` | Auto-empty trash after N days (future feature) |
 | `max_trash_size_mb` | int | `1024` | Maximum trash size in MB (future feature) |
 
@@ -124,9 +120,6 @@ rc restore
 
 # Empty trash with confirmation
 rc empty
-
-# Enable fancy UI
-rc config set use_fancy_ui true
 ```
 
 ## Command Structure
@@ -153,7 +146,7 @@ GoCycled/
 ├── pkg/
 │   ├── config/       # Configuration management
 │   ├── trash/        # Trash operations
-│   └── ui/           # User interface (basic & fancy)
+│   └── ui/           # User interface
 └── go.mod            # Go module file
 ```
 
@@ -180,7 +173,7 @@ Files are stored in `~/.local/share/Trash/` (XDG compliant):
 | Dependencies | Minimal | npm ecosystem |
 | Configuration | `~/.trashrc` | Various |
 | Command | `rc` | `trash`, `trash-list`, etc. |
-| UI Options | Basic + Gum | Basic |
+| UI Options | Basic | Basic |
 | Config Management | Built-in CLI | Manual editing |
 
 ## Development
@@ -214,4 +207,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Acknowledgments
 
 - Inspired by [trash-cli](https://github.com/sindresorhus/trash-cli)
-- UI powered by [Gum](https://github.com/charmbracelet/gum) (optional)
