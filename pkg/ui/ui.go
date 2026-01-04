@@ -75,7 +75,7 @@ func (u *BasicUI) SelectItem(items []trash.Item) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to read input: %v", err)
 	}
-	
+
 	var selection int
 	input = strings.TrimSpace(input)
 	if _, err := fmt.Sscanf(input, "%d", &selection); err != nil || selection < 1 || selection > len(items) {

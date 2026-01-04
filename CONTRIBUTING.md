@@ -32,7 +32,6 @@ Thank you for your interest in contributing to GoCycled! This document provides 
 - Go 1.18 or later
 - Make (optional, for using Makefile)
 - Git
-- Optional: [Gum](https://github.com/charmbracelet/gum) for testing fancy UI features
 
 ### Setting Up Development Environment
 
@@ -221,7 +220,7 @@ GoCycled/
 ├── pkg/
 │   ├── config/       # Configuration management
 │   ├── trash/        # Core trash operations
-│   └── ui/           # User interface (basic & fancy)
+│   └── ui/           # User interface
 ├── examples/         # Usage examples
 ├── Makefile          # Build automation
 ├── README.md         # Project documentation

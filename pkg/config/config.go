@@ -10,7 +10,6 @@ import (
 type Config struct {
 	TrashDir       string `json:"trash_dir"`
 	ConfirmDelete  bool   `json:"confirm_delete"`
-	UseFancyUI     bool   `json:"use_fancy_ui"`
 	AutoEmptyDays  int    `json:"auto_empty_days"`
 	MaxTrashSizeMB int    `json:"max_trash_size_mb"`
 }
@@ -21,7 +20,6 @@ func DefaultConfig() *Config {
 	return &Config{
 		TrashDir:       filepath.Join(homeDir, ".local", "share", "Trash"),
 		ConfirmDelete:  true,
-		UseFancyUI:     false,
 		AutoEmptyDays:  30,
 		MaxTrashSizeMB: 1024,
 	}
@@ -77,8 +75,6 @@ func (c *Config) Get(key string) interface{} {
 		return c.TrashDir
 	case "confirm_delete":
 		return c.ConfirmDelete
-	case "use_fancy_ui":
-		return c.UseFancyUI
 	case "auto_empty_days":
 		return c.AutoEmptyDays
 	case "max_trash_size_mb":
@@ -99,11 +95,6 @@ func (c *Config) Set(key string, value interface{}) bool {
 	case "confirm_delete":
 		if v, ok := value.(bool); ok {
 			c.ConfirmDelete = v
-			return true
-		}
-	case "use_fancy_ui":
-		if v, ok := value.(bool); ok {
-			c.UseFancyUI = v
 			return true
 		}
 	case "auto_empty_days":
